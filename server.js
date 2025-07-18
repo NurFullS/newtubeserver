@@ -2,13 +2,15 @@ import express from 'express'
 import cors from 'cors'
 
 const app = express()
+const PORT = process.env.PORT || 3005
+
 app.use(cors())
-const PORT = 3005 || 3002
+app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.json('Hello World!')
+  res.send('Hello from Render!')
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running http:localhost:${PORT}`)
+  console.log(`Server is running on http://localhost:${PORT}`)
 })
