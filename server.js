@@ -32,7 +32,7 @@ app.use(express.json())
 app.get('/', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM users');
-    res.json(result)
+    res.json(result.rows)
   } catch (error) {
     console.error(error)
   }
