@@ -38,6 +38,16 @@ app.get('/', async (req, res) => {
   }
 })
 
+app.post('/users', async (req, res) => {
+  const { name, email } = req.body;
+  const result = await pool.query(
+    'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
+    [name, email]
+  );
+  res.status(201).json(result.rows[0]);
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
