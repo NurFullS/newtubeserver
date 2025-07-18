@@ -1,11 +1,11 @@
 import express from 'express'
 import cors from 'cors'
+import pkg from 'pg'
+const { Pool } = pkg
 
-const { Pool } = require('pg')
-
-const pool = new Pool ({
+const pool = new Pool({
   user: process.env.PGUSER,
-  host: process.env.PGLOCALHOST,
+  host: process.env.PGLHOST,
   database: process.env.PGDATABASE,
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT
@@ -17,8 +17,13 @@ const PORT = process.env.PORT || 3005
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.json('Hello from Render!')
+app.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM users');
+    res.json(result)
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 app.listen(PORT, () => {
